@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Machine Learning Forecast{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <h2 class="fw-bold mb-3">ML Demand Forecast</h2>
+        <p class="text-muted">This module analyses historical tile movement data and predicts future demand for each tile model.</p>
+
+        {% if summary.status == 'trained' or summary.status == 'ready' %}
+            <div class="alert alert-success">{{ summary.message }}</div>
+            {% if summary.status == 'trained' %}
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 bg-light h-100">
+                            <div class="card-body">
+                                <div class="text-muted small">MSE</div>
+                                <div class="fs-4 fw-bold">{{ summary.metrics.mse }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 bg-light h-100">
+                            <div class="card-body">
+                                <div class="text-muted small">R² Score</div>
+                                <div class="fs-4 fw-bold">{{ summary.metrics.r2 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning">{{ summary.message }}</div>
+        {% endif %}
+
+        <a href="{% url 'prediction_results' %}" class="btn btn-primary">View Prediction Results</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tile.name }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <div class="row">
+            <div class="col-lg-5">
+                {% if tile.image %}
+                    <img src="{{ tile.image.url }}" alt="{{ tile.name }}" class="tile-detail-image">
+                {% else %}
+                    <div class="tile-detail-placeholder d-flex align-items-center justify-content-center">
+                        <span>No Image</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="fw-bold mb-0">{{ tile.name }}</h2>
+                    {% if user_is_admin %}
+                        <div>
+                            <a href="{% url 'admin_tile_update' tile.pk %}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                            <a href="{% url 'admin_tile_delete' tile.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <p><strong>Model ID:</strong> {{ tile.model_id }}</p>
+                <p><strong>Category:</strong> {{ tile.category }}</p>
+                <p><strong>Size:</strong> {{ tile.size }}</p>
+                <p><strong>Color:</strong> {{ tile.color }}</p>
+                <p><strong>Finish:</strong> {{ tile.finish }}</p>
+                <p><strong>Price:</strong> ₹{{ tile.price }}</p>
+                <p><strong>Total Stock:</strong> {{ total_stock }}</p>
+                <p class="text-muted">{{ tile.description }}</p>
+            </div>
+        </div>
+
+        <hr>
+
+        {% if user_is_admin %}
+            <h4 class="fw-bold mt-4">Godown-wise Stock</h4>
+            <table class="table table-striped table-hover mt-3">
+                <thead><tr><th>Godown</th><th>Quantity</th><th>Status</th></tr></thead>
+                <tbody>
+                    {% for stock in stock_entries %}
+                        <tr><td>{{ stock.godown.name }}</td><td>{{ stock.quantity }}</td><td>{% if stock.quantity > 0 %}Available{% else %}Out of Stock{% endif %}</td></tr>
+                    {% empty %}
+                        <tr><td colspan="3">No stock data available.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Tile Catalog{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">Tile Catalog</h2>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'tile_scan' %}" class="btn btn-outline-primary">📷 Scan Tile</a>
+        {% if user_is_admin %}
+            <a href="{% url 'admin_product_list' %}" class="btn btn-primary">Manage Products</a>
+        {% endif %}
+    </div>
+</div>
+
+<form method="get" class="row g-2 mb-4" role="search">
+    <div class="col-md-6">
+        <input type="search" name="q" class="form-control" value="{{ query }}" placeholder="Search model ID, tile name, or specifications" aria-label="Search tiles">
+    </div>
+    <div class="col-md-2">
+        <select name="category" class="form-select" aria-label="Filter by category">
+            <option value="">All categories</option>
+            {% for option in categories %}<option value="{{ option }}" {% if option == category %}selected{% endif %}>{{ option }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="color" class="form-select" aria-label="Filter by color">
+            <option value="">All colors</option>
+            {% for option in colors %}<option value="{{ option }}" {% if option == color %}selected{% endif %}>{{ option }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="finish" class="form-select" aria-label="Filter by finish">
+            <option value="">All finishes</option>
+            {% for option in finishes %}<option value="{{ option }}" {% if option == finish %}selected{% endif %}>{{ option }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-12 d-grid d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </div>
+</form>
+
+<div class="row g-4">
+    {% for item in tiles %}
+        {% with tile=item.tile %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card tile-result-card h-100 shadow-sm border-0">
+                    <div class="tile-card-image-wrap">
+                        {% if tile.image %}
+                            <img src="{{ tile.image.url }}" alt="{{ tile.name }}" class="tile-card-image" loading="lazy">
+                        {% else %}
+                            <div class="tile-card-image tile-image-placeholder" role="img" aria-label="Image unavailable for {{ tile.name }}">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">{{ tile.model_id }}</span>
+                            <span class="badge bg-light text-dark">{{ tile.category }}</span>
+                        </div>
+                        <h5 class="card-title fw-bold">{{ tile.name }}</h5>
+                        <p class="mb-1"><strong>Size:</strong> {{ tile.size }}</p>
+                        <p class="mb-1"><strong>Color:</strong> {{ tile.color }}</p>
+                        <p class="mb-1"><strong>Finish:</strong> {{ tile.finish }}</p>
+                        <p class="mb-1"><strong>Price:</strong> ₹{{ tile.price }}</p>
+                        <p class="mb-2"><strong>Availability:</strong> {% if item.total_stock > 0 %}In stock ({{ item.total_stock }}){% else %}Out of stock{% endif %}</p>
+                        <a href="{% url 'tile_detail' tile.pk %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endwith %}
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No tile records match your search.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

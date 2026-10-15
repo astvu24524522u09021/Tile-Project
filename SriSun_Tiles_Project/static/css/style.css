@@ -1,0 +1,340 @@
+body {
+    background: #f5f7fb;
+    color: #1f2937;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #eef5ff 0%, #dfeafc 100%);
+    border: 1px solid #dfeafc;
+}
+
+.stat-card {
+    border-left: 4px solid #0d6efd;
+    background: #fff;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.placeholder-image {
+    width: 100%;
+    min-height: 320px;
+    background: #edf2f7;
+    color: #6c757d;
+    border-radius: 12px;
+}
+
+.card {
+    border-radius: 14px;
+}
+
+.table thead th {
+    vertical-align: middle;
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+.navbar-brand {
+    letter-spacing: 0.03rem;
+}
+
+.tile-detail-image,
+.tile-card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #f1f3f5;
+}
+
+.tile-detail-image {
+    max-height: 440px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.tile-detail-placeholder,
+.tile-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #f1f3f5;
+    color: #6c757d;
+}
+
+.tile-detail-placeholder {
+    max-height: 440px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.tile-card-image-wrap {
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.tile-result-card {
+    overflow: hidden;
+}
+
+.tile-image-placeholder {
+    min-height: 180px;
+}
+
+.ai-tile-result-card .tile-card-image-wrap {
+    flex: 0 0 auto;
+}
+
+.tile-scan-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.tile-scan-card {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgb(15 23 42 / 7%);
+}
+
+.tile-scan-frame {
+    position: relative;
+    display: grid;
+    width: 100%;
+    max-width: 720px;
+    min-height: 220px;
+    aspect-ratio: 16 / 10;
+    margin-inline: auto;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #e8edf3;
+}
+
+.tile-scan-frame video,
+.tile-scan-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.tile-scan-frame video[hidden],
+.tile-scan-frame img[hidden],
+.tile-scan-placeholder[hidden] {
+    display: none;
+}
+
+.tile-scan-placeholder {
+    z-index: 1;
+    padding: 2rem;
+    color: #536273;
+    text-align: center;
+}
+
+.tile-scan-frame video:not([hidden]),
+.tile-scan-frame img:not([hidden]) {
+    position: absolute;
+    inset: 0;
+}
+
+.tile-scan-frame-guide {
+    position: absolute;
+    z-index: 2;
+    width: min(72%, 560px);
+    aspect-ratio: 1.35 / 1;
+    border: 2px solid rgb(255 255 255 / 95%);
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgb(15 23 42 / 28%), inset 0 0 18px rgb(15 23 42 / 10%);
+    pointer-events: none;
+}
+
+.tile-scan-frame-instruction {
+    margin: 0 auto 1rem;
+    color: #334155;
+    font-weight: 600;
+    text-align: center;
+}
+
+.tile-scan-controls {
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tile-scan-controls .btn {
+    flex: 0 1 200px;
+    min-height: 44px;
+}
+
+.tile-scan-guidance {
+    color: #64748b;
+    font-size: 0.925rem;
+}
+
+.tile-scan-result-image {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+#scan-preview {
+    max-height: none;
+    object-fit: contain;
+}
+
+@media (max-width: 575.98px) {
+    .tile-scan-page {
+        padding-inline: 0.25rem;
+    }
+
+    .tile-scan-frame {
+        min-height: 220px;
+    }
+
+    .tile-scan-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .tile-scan-controls .btn {
+        flex: none;
+        width: 100%;
+    }
+}
+
+.register-page {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 0 3rem;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgb(31 41 55 / 8%);
+}
+
+.register-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+}
+
+.register-field {
+    min-width: 0;
+}
+
+.register-field-full {
+    grid-column: 1 / -1;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.register-form input:not([type="hidden"]):not([type="checkbox"]) {
+    display: block;
+    width: 100%;
+    height: 48px;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background-color: #fff;
+    color: #1f2937;
+    font: inherit;
+    font-size: 1rem;
+}
+
+.register-form input:not([type="hidden"]):not([type="checkbox"]):focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(13 110 253 / 15%);
+}
+
+.register-help {
+    margin-top: 0.35rem;
+    color: #6c757d;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.register-help ul,
+.register-errors ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.register-error,
+.register-errors {
+    margin-top: 0.35rem;
+    color: #b02a37;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.register-form button {
+    min-height: 48px;
+    margin-top: 1.25rem;
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+@media (max-width: 575.98px) {
+    .register-page {
+        min-height: auto;
+        align-items: flex-start;
+        margin-inline: 4px;
+        padding: 0.75rem 0 1.5rem;
+    }
+
+    .register-card .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .register-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .register-field-full {
+        grid-column: auto;
+    }
+}

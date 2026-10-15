@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Transfer Stock{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-3">Transfer Stock Between Godowns</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Transfer</button>
+                    <a href="{% url 'stock_view' %}" class="btn btn-secondary">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

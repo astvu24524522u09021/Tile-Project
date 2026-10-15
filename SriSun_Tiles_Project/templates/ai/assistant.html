@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Tile Assistant{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="fw-bold mb-3">AI Tile Assistant</h2>
+                <form method="get" action="{% url 'assistant' %}">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" name="q" placeholder="Example: Show white tiles, 2x4 tiles, low stock tiles" value="{{ query }}">
+                        <button class="btn btn-primary" type="submit">Ask</button>
+                    </div>
+                </form>
+
+                {% if query %}
+                    <div class="mt-4 alert alert-info">
+                        {{ summary.message }}
+                    </div>
+                    {% include 'ai/search_results.html' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

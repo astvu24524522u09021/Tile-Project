@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2>Welcome, {{ user.get_full_name|default:user.username }}</h2>
+            <p class="text-muted">Browse the latest tile collections and available inventory.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <span class="badge bg-success fs-6">Total stock: {{ total_stock }}</span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for tile in tiles %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="card-title mb-0">{{ tile.name }}</h5>
+                        <span class="badge bg-primary">{{ tile.category }}</span>
+                    </div>
+                    <p class="text-muted mb-2">{{ tile.size }} • {{ tile.color }} • {{ tile.finish }}</p>
+                    <p class="text-dark fw-bold mb-3">₹ {{ tile.price }}</p>
+                    <p class="small text-secondary">{{ tile.description|default:'Premium tile for modern spaces.' }}</p>
+                    <p class="small mb-3">Model {{ tile.model_id }} · {{ tile.total_stock }} available</p>
+                    <a href="{% url 'tile_detail' tile.pk %}" class="btn btn-sm btn-outline-primary">View details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No tiles available at the moment.</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'tile_list' %}" class="btn btn-primary">Browse all tiles</a>
+    </div>
+</div>
+{% endblock %}

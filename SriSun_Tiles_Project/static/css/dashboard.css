@@ -1,0 +1,16 @@
+.dashboard-panel {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.summary-box {
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d6efd, #4f9cff);
+    color: #fff;
+}
+
+.summary-box.warning {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Admin Dashboard</h2>
+    <div>
+        <a href="{% url 'admin_product_list' %}" class="btn btn-outline-primary me-2">Manage Products</a>
+        <a href="{% url 'add_stock' %}" class="btn btn-primary me-2">Add Stock</a>
+        <a href="{% url 'transfer_stock' %}" class="btn btn-outline-primary">Transfer</a>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Total Tile Models</div>
+                <div class="stat-value">{{ total_tiles }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Total Stock</div>
+                <div class="stat-value">{{ total_stock }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Low Stock Items</div>
+                <div class="stat-value">{{ low_stock|length }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    {% for item in godown_totals %}
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-muted small">{{ item.godown.name }}</div>
+                    <h4 class="fw-bold mb-0">{{ item.quantity }}</h4>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">Recent Transactions</div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tile</th>
+                            <th>Godown</th>
+                            <th>Type</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in recent_transactions %}
+                            <tr>
+                                <td>{{ tx.tile.model_id }}</td>
+                                <td>{{ tx.godown.name }}</td>
+                                <td>{{ tx.transaction_type }}</td>
+                                <td>{{ tx.quantity }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="4">No transactions yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">Recent Transfers</div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tile</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transfer in recent_transfers %}
+                            <tr>
+                                <td>{{ transfer.tile.model_id }}</td>
+                                <td>{{ transfer.quantity }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="2">No transfers recorded.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

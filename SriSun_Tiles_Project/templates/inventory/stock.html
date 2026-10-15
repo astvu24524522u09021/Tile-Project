@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Stock Inventory{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">Stock Inventory</h2>
+    <div>
+        <a href="{% url 'add_stock' %}" class="btn btn-primary me-2">Add Stock</a>
+        <a href="{% url 'remove_stock' %}" class="btn btn-outline-primary me-2">Remove Stock</a>
+        <a href="{% url 'transfer_stock' %}" class="btn btn-outline-secondary">Transfer Stock</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Model ID</th>
+            <th>Tile</th>
+            <th>Godown</th>
+            <th>Quantity</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock in stock_entries %}
+            <tr>
+                <td>{{ stock.tile.model_id }}</td>
+                <td>{{ stock.tile.name }}</td>
+                <td>{{ stock.godown.name }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>{% if stock.quantity > 0 %}Available{% else %}Low{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No stock entries found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

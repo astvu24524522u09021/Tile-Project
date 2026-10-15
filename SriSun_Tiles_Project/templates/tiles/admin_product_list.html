@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Product Management</h2>
+        <p class="text-muted mb-0">{{ tiles|length }} tile products</p>
+    </div>
+    <a href="{% url 'admin_tile_create' %}" class="btn btn-primary">Add Product</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Image</th>
+                <th>Model ID</th>
+                <th>Tile Name</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Finish</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tile in tiles %}
+                <tr>
+                    <td>
+                        {% if tile.image %}
+                            <img src="{{ tile.image.url }}" alt="{{ tile.name }}" width="72" height="56" style="object-fit: cover;">
+                        {% else %}
+                            <span class="text-muted">No image</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ tile.model_id }}</td>
+                    <td><a href="{% url 'tile_detail' tile.pk %}">{{ tile.name }}</a></td>
+                    <td>{{ tile.category }}</td>
+                    <td>{{ tile.size }}</td>
+                    <td>{{ tile.color }}</td>
+                    <td>{{ tile.finish }}</td>
+                    <td>₹{{ tile.price }}</td>
+                    <td>{{ tile.total_stock }}</td>
+                    <td class="text-nowrap">
+                        <a href="{% url 'admin_tile_update' tile.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a href="{% url 'admin_tile_delete' tile.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="10" class="text-center text-muted py-4">No products yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

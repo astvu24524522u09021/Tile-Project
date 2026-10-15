@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}SriSun Tiles | Home{% endblock %}
+
+{% block content %}
+<div class="hero-section mb-4 p-4 rounded shadow-sm">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <p class="text-uppercase text-muted small fw-semibold mb-2">Enterprise inventory platform</p>
+            <h1 class="display-5 fw-bold">SriSun Tiles Management System</h1>
+            <p class="lead text-secondary">
+                Centralized tile inventory, stock transfer control, customer search, AI assistance, and predictive demand planning across all godowns.
+            </p>
+            <div class="mt-3">
+                <a href="{% url 'tile_list' %}" class="btn btn-primary me-2">Browse Tiles</a>
+                {% if user_is_admin %}
+                    <a href="{% url 'admin:index' %}" class="btn btn-outline-primary">Django Admin</a>
+                {% elif user.is_authenticated %}
+                    <a href="{% url 'customer_dashboard' %}" class="btn btn-outline-primary">My Dashboard</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">User Login</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4 text-center">
+            <div class="hero-card p-4 rounded shadow border">
+                <div class="display-3 fw-bold text-primary">{{ total_tiles }}</div>
+                <div class="text-muted">Tile Models</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Total Stock</div>
+                <div class="stat-value">{{ total_stock }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Low Stock Items</div>
+                <div class="stat-value">{{ low_stock_items }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="stat-label">Godowns</div>
+                <div class="stat-value">3</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">Featured Models</div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for tile in recent_tiles %}
+                        <a href="{% url 'tile_detail' tile.pk %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold">{{ tile.model_id }} - {{ tile.name }}</div>
+                                    <small class="text-muted">{{ tile.category }} | {{ tile.size }} | {{ tile.color }}</small>
+                                </div>
+                                <span class="badge bg-primary">₹{{ tile.price }}</span>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <div class="list-group-item">No tiles available yet.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">System Highlights</div>
+            <div class="card-body">
+                <ul class="feature-list">
+                    <li>Centralized inventory records</li>
+                    <li>Godown-wise stock tracking</li>
+                    <li>Transfer and reconciliation tools</li>
+                    <li>Natural language tile search</li>
+                    <li>Demand prediction and reporting</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

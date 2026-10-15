@@ -1,0 +1,30 @@
+{% if results %}
+    <div class="row g-3 mt-2">
+        {% for tile in results %}
+            <div class="col-md-6">
+                <div class="card ai-tile-result-card h-100 border-0 shadow-sm">
+                    <div class="tile-card-image-wrap">
+                        {% if tile.image %}
+                            <img src="{{ tile.image.url }}" alt="{{ tile.name }}" class="tile-card-image" loading="lazy">
+                        {% else %}
+                            <div class="tile-card-image tile-image-placeholder" role="img" aria-label="Image unavailable for {{ tile.name }}">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fw-bold">{{ tile.name }}</h5>
+                            <span class="badge bg-primary">{{ tile.model_id }}</span>
+                        </div>
+                        <p class="mb-1"><strong>Category:</strong> {{ tile.category }}</p>
+                        <p class="mb-1"><strong>Size:</strong> {{ tile.size }}</p>
+                        <p class="mb-1"><strong>Color:</strong> {{ tile.color }}</p>
+                        <p class="mb-1"><strong>Finish:</strong> {{ tile.finish }}</p>
+                        <p class="mb-0 mt-auto"><strong>Price:</strong> ₹{{ tile.price }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning mt-3">No matching tiles were found.</div>
+{% endif %}

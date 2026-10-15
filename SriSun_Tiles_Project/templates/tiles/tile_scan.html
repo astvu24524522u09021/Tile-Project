@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Scan Tile{% endblock %}
+
+{% block content %}
+<main class="tile-scan-page">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <div>
+            <h1 class="h2 fw-bold mb-1">Scan a Tile</h1>
+            <p class="text-muted mb-0">Frame one tile clearly, then capture or upload its image.</p>
+        </div>
+        <a href="{% url 'tile_list' %}" class="btn btn-outline-secondary">Back to Tiles</a>
+    </div>
+
+    <section class="tile-scan-card mb-4" aria-label="Tile image scanner">
+        <form id="tile-scan-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body p-3 p-md-4">
+                <div class="tile-scan-frame mb-3">
+                    <video id="tile-camera" autoplay muted playsinline hidden aria-label="Live camera preview"></video>
+                    <img
+                        id="scan-preview"
+                        class="tile-scan-result-image"
+                        alt="Selected tile preview"
+                        {% if preview_data %}
+                            src="data:image/jpeg;base64,{{ preview_data }}"
+                        {% else %}
+                            hidden
+                        {% endif %}
+                    >
+                    <div id="scan-placeholder" class="tile-scan-placeholder">
+                        <div class="h5 mb-2">Camera preview</div>
+                        <div>Open the camera or upload a tile image to begin.</div>
+                    </div>
+                    <div class="tile-scan-frame-guide" aria-hidden="true"></div>
+                </div>
+                <canvas id="tile-capture-canvas" hidden></canvas>
+
+                <p class="tile-scan-frame-instruction">Place the tile inside the frame</p>
+
+                {% if form.image.errors %}
+                    <div class="alert alert-danger py-2" role="alert">{{ form.image.errors }}</div>
+                {% endif %}
+
+                <div class="tile-scan-controls d-flex flex-wrap gap-2 mb-3">
+                    <button type="button" id="open-camera" class="btn btn-outline-primary">Open Camera</button>
+                    <button type="button" id="capture-tile" class="btn btn-primary" disabled>Capture</button>
+                    <button type="button" id="upload-tile" class="btn btn-outline-secondary">Upload Image</button>
+                    <div class="visually-hidden">{{ form.image }}</div>
+                </div>
+
+                <p id="scan-status" class="tile-scan-guidance mb-3" aria-live="polite">
+                    Keep the tile flat and avoid reflections where possible.
+                </p>
+                <button type="submit" id="analyze-tile" class="btn btn-success w-100" {% if not preview_data %}disabled{% endif %}>
+                    Analyze Tile
+                </button>
+            </div>
+        </form>
+    </section>
+
+    {% if no_match %}
+        <div class="alert alert-warning" role="alert">No exact match found. Please scan the tile again.</div>
+    {% endif %}
+
+    {% if tile %}
+        <section class="card tile-scan-card" aria-labelledby="scan-match-heading">
+            <div class="card-body p-3 p-md-4">
+                <h2 id="scan-match-heading" class="h4 fw-bold mb-3">Verified Tile Match</h2>
+                <div class="row g-4 align-items-start">
+                    <div class="col-md-5">
+                        {% if tile.image %}
+                            <img src="{{ tile.image.url }}" alt="{{ tile.name }}" class="tile-card-image rounded">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-7">
+                        <p><strong>Model ID:</strong> {{ tile.model_id }}</p>
+                        <p><strong>Tile name:</strong> {{ tile.name }}</p>
+                        <p><strong>Category:</strong> {{ tile.category }}</p>
+                        <p><strong>Size:</strong> {{ tile.size }}</p>
+                        <p><strong>Color:</strong> {{ tile.color }}</p>
+                        <p><strong>Finish:</strong> {{ tile.finish }}</p>
+                        <p><strong>Price:</strong> ₹{{ tile.price }}</p>
+                        <p class="mb-0"><strong>Total stock:</strong> {{ total_stock }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/tile_scan.js' %}?v=1"></script>
+{% endblock %}
